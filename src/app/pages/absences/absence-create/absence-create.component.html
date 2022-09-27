@@ -1,0 +1,75 @@
+<div class="container-fluid px-1 py-5 mx-auto">
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+      <h3>Adding an absence</h3>
+      <p class="blue-text">This interface is used to add a new absence </p>
+      <div class="card">
+          <h5 class="text-center mb-4">Please fill in the required fields</h5>
+        <div class="row justify-content-end" >
+          <div class="form-group col-sm-12" [hidden]="!submitted">
+            <div class="alert alert-success" role="alert">
+              Absence added successfully
+            </div>
+          </div>
+          <div class="form-group col-sm-12" *ngIf="messageError">
+            <div class="alert alert-danger" role="alert">
+              {{messageError}}
+            </div>
+          </div>
+        </div>
+        <form class="form-card" (ngSubmit)="onSubmit()" >
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex">
+              <label class="form-control-label px-3">Start date<span class="text-danger"> *</span></label>
+              <input type="date"
+                     id="dateDebut"
+                     required
+                     [(ngModel)]="absence.dateDebut" name="dateDebut"
+                     placeholder=""
+              >
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">End date<span
+              class="text-danger"> *</span></label> <input type="date" id="dateFin"
+                                                           [(ngModel)]="absence.dateFin" name="dateFin"
+                                                           placeholder="">
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Leave type<span
+              class="text-danger"> *</span></label>
+              <select id="etatCivil" class="form-control mt-1 pt-2" name="etatCivil"  [(ngModel)]="absence.typeAbsence">
+                <option value="0">SICKNESS</option>
+                <option value="1">ADMINISTRATIVE LEAVE</option>
+                <option value="2">UNJUSTIFIED LEAVE</option>
+                <option value="3">DELAY</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Justified ?<span
+              class="text-danger"> *</span></label>
+              <select id="justifie" class="form-control mt-1 pt-2" name="etatCivil"  [(ngModel)]="absence.justifie">
+                <option value="true">YES</option>
+                <option value="false">NO</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Justification<span
+              class="text-danger"> *</span></label> <input type="textarea" id="justification"
+                                                           [(ngModel)]="absence.justification" name="justification"
+                                                           placeholder="">
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Employee<span
+              class="text-danger"> *</span></label>
+              <select id="employee" class="form-control mt-0 pt-3" required  [(ngModel)]="selectedEmployee" name="employee">
+                <option *ngFor="let employee of employees " [ngValue]="employee.id">{{employee.nom}} {{employee.prenom}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row justify-content-end">
+            <div class="form-group col-sm-6">
+              <button type="submit" class="btn-block btn-success me-3">Create</button>
+              <button type="submit" class="btn-block btn-success" (click)="goToList()">Return</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

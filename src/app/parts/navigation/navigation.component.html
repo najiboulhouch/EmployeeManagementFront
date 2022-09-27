@@ -1,0 +1,18 @@
+<header class="p-3 text-bg-dark" *ngIf="currentUser;">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a [routerLink]="['/employees']" class="nav-link px-2 text-white">Employees</a></li>
+        <li><a [routerLink]="['/fonctions']" class="nav-link px-2 text-white">Functions</a></li>
+        <li><a [routerLink]="['/absences']" class="nav-link px-2 text-white">Absences</a></li>
+        <li><a [routerLink]="['/payments']" class="nav-link px-2 text-white">Payments</a></li>
+      </ul>
+
+      <div class="text-end" >
+        <button type="button" class="btn btn-outline-light me-2" (click)="logout()"
+                routerLink="/login" [queryParams]="{logout: true}">Logout</button>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,25 @@
+
+<div class="list-group w-auto mt-4 align-content-center" *ngIf="absences?.length != 0 else NoAbsence">
+  <label class="list-group-item d-flex gap-3 col-4" *ngFor="let abs of absences">
+    <span class="pt-1 form-checked-content">
+      an absence <strong>{{ abs.typeAbsence }}</strong>
+      is <strong>{{ abs.justifie == true ? 'Unjustified' : 'Justified'}}</strong>
+      <small class="d-block text-muted">
+        <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#calendar-event"></use></svg>
+        De {{ abs.dateDebut | date : "dd - MMMM - YYYY" }}  à {{abs.dateFin | date : "dd - MMMM - YYYY"}}
+      </small>
+    </span>
+  </label>
+</div>
+
+<ng-template #NoAbsence>
+  <div></div>
+  <div class="form-group col-sm-12 mt-3">
+    <div class="alert alert-warning" role="alert">
+      No absence recorded for this employee
+    </div>
+  </div>
+</ng-template>
+<a href="#" class="btn btn-dark m-2 " title="Retour" [routerLink]="['/employees']">
+  Return
+</a>

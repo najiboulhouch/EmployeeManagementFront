@@ -1,0 +1,60 @@
+<h1 style="text-align: center" class="display-4 ">List of employees</h1>
+<div class="row">
+  <div class="alert alert-danger" role="alert" [hidden]="!deleted">
+    The employee was successfully deleted
+  </div>
+  <div class="col-12 mb-4" style="text-align: right" >
+    <a href="#" class="btn btn-success"  title="Add" [routerLink]="['/addEmployee']">
+      <i class="bi bi-person-plus-fill"></i>
+      Add a new employee
+    </a>
+  </div>
+  <div class="col-12">
+<table id="table" class="table table-striped text-center" style="width:100%;">
+  <thead>
+  <tr>
+    <th scope="col">Picture</th>
+    <th scope="col">CIN</th>
+    <th scope="col">FirstName</th>
+    <th scope="col">LastName</th>
+    <th scope="col">Birth date</th>
+    <th scope="col">Location</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Marital status</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let employee of employees">
+    <th class="align-middle" scope="row">
+      <img class="rounded mx-auto d-block" style="width: 30px;height: 30px;" [src]="this.employeeService.getPictureEmployee(employee.id)"/>
+    </th>
+    <td class="align-middle">{{employee.cin}}</td>
+    <td class="align-middle">{{employee.nom}}</td>
+    <td class="align-middle">{{employee.prenom}}</td>
+    <td class="align-middle">{{employee.dateNaissance | date : "dd - MMMM - YYYY"  }}</td>
+    <td class="align-middle">{{employee.lieuNaissance}}</td>
+    <td class="align-middle">{{employee.numTel}}</td>
+    <td class="align-middle">{{EtatCivil[employee.etatCivil]}} </td>
+    <td class="align-middle">
+      <button  class="btn btn-dark me-2" title="Pay Salary" (click)="addPyment(employee.id)">
+        <i class="bi bi-currency-dollar"></i>
+      </button>
+      <button  class="btn btn-info me-2" title="Employee file" (click)="employeeDetails(employee.id)">
+        <i class="bi bi-person-badge"></i>
+      </button>
+      <button  class="btn btn-warning me-2" title="Absence sheet" [disabled]="employee.absences.length == 0" (click)="detailsAbsencesEmployee(employee.id)">
+        <i class="bi bi-files"></i> {{employee.absences.length}}
+      </button>
+      <button (click)="updateEmployee(employee.id)" class="btn btn-primary me-2" title="Edit">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <button class="btn btn-danger" (click)="deleteEmployee(employee.id)" title="Delete">
+        <i class="bi bi-dash-circle"></i>
+      </button>
+    </td>
+  </tbody>
+</table>
+    <app-pagination [currentPage]="page"></app-pagination>
+</div>
+</div>

@@ -1,0 +1,164 @@
+<div class="container-fluid px-1 py-5 mx-auto">
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+      <h3>Adding an employee</h3>
+      <p class="blue-text">This interface is used to add a new employee</p>
+      <div class="card">
+        <h5 class="text-center mb-4">Please fill in the required fields</h5>
+        <div class="row justify-content-end" >
+          <div class="form-group col-sm-12" [hidden]="!submitted">
+            <div class="alert alert-success" role="alert">
+              The employee was successfully added
+            </div>
+          </div>
+          <div class="form-group col-sm-12" *ngIf="messageError">
+            <div class="alert alert-danger" role="alert">
+              {{messageError}}
+            </div>
+          </div>
+        </div>
+        <form class="form-card" (ngSubmit)="onSubmit()">
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex">
+              <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
+              <input type="text"
+                     id="nom"
+                     required
+                     [(ngModel)]="employee.nom" name="nom"
+                     placeholder=""
+              >
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Last Name<span
+              class="text-danger"> *</span></label> <input type="text" id="prenom"   [(ngModel)]="employee.prenom" name="prenom"
+                                                           placeholder="">
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">CIN<span
+              class="text-danger"> *
+                     </span></label> <input type="text" id="cin"    [(ngModel)]="employee.cin" placeholder="" name="cin">
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Phone
+              <span class="text-danger">
+                     *</span></label> <input type="tel" id="tel"  placeholder=""  [(ngModel)]="employee.numTel" name="numTel">
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Birth Date
+              <span class="text-danger">
+                     *</span></label> <input type="date" id="dateNaissance" name="dateNaissance" placeholder=""
+                                             [(ngModel)]="employee.dateNaissance">
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex">
+              <label class="form-control-label px-3">
+                City
+                <span class="text-danger"> *</span></label>
+              <select id="lieuNaissance" name="lieuNaissance" class="form-control mt-1 pt-2"  [(ngModel)]="employee.lieuNaissance">
+                <option name="Rabat">Rabat</option>
+                <option name="Rabat">Casa</option>
+                <option name="Rabat">Sale</option>
+                <option name="Rabat">Temara</option>
+                <option name="Rabat">El jadida</option>
+                <option name="Rabat">Tanger</option>
+                <option name="Rabat">Oujda</option>
+                <option name="Rabat">Marrakech</option>
+                <option name="Rabat">Agadir</option>
+                <option name="Rabat">Settat</option>
+                <option name="Rabat">Berchid</option>
+                <option name="Rabat">Khouribga</option>
+                <option name="Rabat">Beni Mellal</option>
+                <option name="Rabat">Rachidia</option>
+                <option name="Rabat">Tiznet</option>
+                <option name="Rabat">Fes</option>
+                <option name="Rabat">Meknes</option>
+              </select>
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Address<span
+              class="text-danger"> *</span></label> <input type="text" id="adresse" name="adresse"  [(ngModel)]="employee.adresse" placeholder=""
+            >
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Nationality<span
+              class="text-danger"> *</span></label> <input type="text" id="nationalite" name="nationalite" placeholder=""
+                                                           [(ngModel)]="employee.nationalite"
+            >
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex">
+              <label class="form-control-label px-3">Marital status<span
+                class="text-danger"> *</span></label>
+              <select id="etatCivil" class="form-control mt-1 pt-2" name="etatCivil"  [(ngModel)]="employee.etatCivil">
+                <option name="0">MARRIED</option>
+                <option name="1">SINGLE</option>
+                <option name="2">DIVORCE</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Salary<span
+              class="text-danger"> *</span></label> <input type="number" id="salaire" name="salaire"
+                                                           [(ngModel)]="employee.salaire" placeholder=""
+            >
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Function<span
+              class="text-danger"> *</span></label>
+              <select id="fonction" class="form-control mt-0 pt-3" required  [(ngModel)]="selectedFonctions" name="fonction">
+                <option *ngFor="let fonction of fonctions " [ngValue]="fonction.id">{{fonction.label}}</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Email<span
+              class="text-danger"> *</span></label> <input required type="email" id="email" name="email"
+                                                           [(ngModel)]="employee.email" placeholder=""
+            >
+            </div>
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-12 flex-column d-flex"><label class="form-control-label px-3">Picture<span
+              class="text-danger"> *</span></label> <input required  type="file" class="custom-file-input"
+                                                           (change)="onSelectedFile($event)"  [(ngModel)]="employee.photo"
+                                                           id="photo" name="photo" placeholder=""
+            >
+            </div>
+            <div class="row justify-content-between text-left">
+
+          <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Contract number<span
+            class="text-danger"> *</span></label> <input required type="text" id="numContrat" name="numContrat"
+                                                         [(ngModel)]="contrat.numeroContrat" placeholder=""
+          >
+          </div>
+              <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Is it in progress?<span
+                class="text-danger"> *</span></label>               <select id="justifie" class="form-control mt-1 pt-2"
+                                                                            name="etatCivil"  [(ngModel)]="contrat.isCourant">
+                <option value="true">YES</option>
+                <option value="false">NO</option>
+              </select>
+              </div>
+
+          </div>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Start of the contract<span
+              class="text-danger"> *</span></label> <input required type="date" id="dateDebut" name="dateDebut"
+                                                           [(ngModel)]="contrat.dateDebut" placeholder=""
+            >
+            </div>
+          <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">End of the contract<span
+            class="text-danger"> *</span></label> <input required type="date" id="dateFin" name="dateFin"
+                                                         [(ngModel)]="contrat.dateFin" placeholder=""
+          >
+          </div>
+
+          </div>
+          <div class="row justify-content-end">
+            <div class="form-group col-sm-6">
+              <button type="submit" class="btn-block btn-success me-3">Create</button>
+              <button type="submit" class="btn-block btn-success" (click)="goToList()">Return</button>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<h1 style="text-align: center" class="display-4 ">List of payments</h1>
+<div class="row">
+  <div class="col-12 mb-4" style="text-align: right" >
+    <a href="#" class="btn btn-success"  title="Ajouter" [routerLink]="['/addEmployee']">
+      <i class="bi bi-person-plus-fill"></i>
+      Add a new employee
+    </a>
+  </div>
+  <div class="col-12">
+    <table id="table" class="table table-striped text-center" style="width:100%;">
+      <thead>
+      <tr>
+        <th scope="col">Employee</th>
+        <th scope="col">Payment date</th>
+        <th scope="col">Month</th>
+        <th scope="col">Salary(MAD)</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let payment of payments">
+        <td class="align-middle">{{payment.employee.nom}} {{payment.employee.prenom}}</td>
+        <td class="align-middle">{{payment.datePayment | date : "dd - MMMM - YYYY" }}</td>
+        <td class="align-middle">{{payment.datePayment | date : "MMMM"}}</td>
+        <td class="align-middle">{{payment.salaire}}</td>
+        <td class="align-middle">
+          <button  class="btn btn-info me-2" title="Employee file" >
+            <i class="bi bi-person-badge" (click)="employeeDetails(payment.employee.id)"></i>
+          </button>
+          <button  class="btn btn-primary me-2" title="Update" (click)="updatePayment(payment.id)">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+        </td>
+      </tbody>
+    </table>
+    <app-pagination [currentPage]="page"></app-pagination>
+  </div>
+</div>
