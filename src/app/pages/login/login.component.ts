@@ -14,9 +14,9 @@ export class LoginComponent implements OnInit {
   isLogout: boolean;
   submitted = false;
   model: any = {
-    username: '',
-    password: '',
-    remembered: false
+    username: 'najib@gmail.com',
+    password: '1234',
+    remembered: true
   };
 
   returnUrl: string | null = '/';

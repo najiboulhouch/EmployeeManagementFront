@@ -15,16 +15,13 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
   styleUrls: ['./employee-create.component.css']
 })
 export class EmployeeCreateComponent implements OnInit {
-  employee:Employee = new Employee(0);
+  employee:Employee = new Employee();
   submitted  = false;
   fonctions?: Fonction[];
   selectedFonctions : number;
   messageError : string;
-  selectedFiles : any;
   progress: number;
-  currentFileUpload: any;
-  private currentTime: number;
-  contrat :Contrat = new Contrat(0);
+  contrat :Contrat = new Contrat();
 
   constructor(private employeeService : EmployeeService,private fonctionService : FonctionService,
               private router:Router , private contratService : ContratService) { }
@@ -37,7 +34,6 @@ export class EmployeeCreateComponent implements OnInit {
     this.fonctionService.getAllFonctionsForSelect().subscribe({
       next : (data) => {
         this.fonctions = data ;
-        console.log(data);
       },
       error:(e) => console.error(e),
     });
@@ -49,17 +45,17 @@ export class EmployeeCreateComponent implements OnInit {
     this.employeeService.createEmployee(this.employee).subscribe({next : ( data ) => {
           this.employee = data;
           this.messageError = "";
-          this.uploadPhoto();
-          this.saveContrat();
-        } , error : error => {this.messageError = error.error.message ; this.submitted = false; }} );
+        this.saveContrat();
+        } , error : error => {
+      this.messageError = error.error ; this.submitted = false; }} );
   };
 
   saveContrat(){
-    console.log(this.employee)
     this.contrat.employee = this.employee;
     this.contratService.createContrat(this.contrat).subscribe({
       next : (data) => {
         this.contrat = data ;
+        this.submitted = true;
       }
     })
 
@@ -67,37 +63,14 @@ export class EmployeeCreateComponent implements OnInit {
 
   onSubmit(){
     this.save();
+
   }
 
   goToList(){
     this.router.navigate(['/employees']);
   }
 
-  private uploadPhoto() {
-    this.progress = 0;
-    this.currentFileUpload = this.selectedFiles.item(0)
-    console.log(this.currentFileUpload);
-    this.employeeService.uploadPhotoEmployee(this.currentFileUpload, this.employee.id).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        // @ts-ignore
-        this.progress = Math.round(100 * event.loaded / event.total);
-        this.submitted = true ;
-      } else if (event instanceof HttpResponse) {
-        this.currentTime=Date.now();
-      }
-    },err=>{
-      console.log(err);
-      this.submitted = false ;
-      alert("Problème de chargement");
-    })
 
-    this.selectedFiles = undefined
-  }
-
-  onSelectedFile(event : any) {
-    console.log(event)
-    this.selectedFiles=event.target.files;
-  }
 
 
 

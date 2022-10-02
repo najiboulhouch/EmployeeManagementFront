@@ -19,7 +19,9 @@ export class AbsenceCreateComponent implements OnInit {
   messageError : string;
   selectedEmployee: number;
 
-  constructor(private router:Router , private employeeService : EmployeeService , private absenceService : AbsenceService) { }
+  constructor(private router:Router ,
+              private employeeService : EmployeeService ,
+              private absenceService : AbsenceService) { }
 
   ngOnInit(): void {
     this.reloadAllEmployee();
@@ -30,7 +32,7 @@ export class AbsenceCreateComponent implements OnInit {
       next : (data) => {
         this.employees = data ;
       },
-      error:(e) => console.error(e),
+      error:(err) => console.error(err),
     });
   }
 
@@ -39,17 +41,16 @@ export class AbsenceCreateComponent implements OnInit {
   }
 
   save(){
-    let employee = new Employee(this.selectedEmployee);
-    this.absence.employee = employee;
+    this.absence.employee = new Employee();
+    this.absence.employee.id  = this.selectedEmployee;
     this.absenceService.createAbsence(this.absence).subscribe({next : ( data ) => {
         this.absence = data;
         this.messageError = "";
-
       } , error : error => {this.messageError = error.error.message ; this.submitted = false; }} );
   };
 
   onSubmit(){
-    this.submitted = true;
     this.save();
+    this.submitted = true;
   }
 }

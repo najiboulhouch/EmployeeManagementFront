@@ -21,9 +21,5 @@ export class Employee {
   absences : Absence[];
 
 
-  constructor(id: number) {
-    this.id = id;
-  }
-
 
 }

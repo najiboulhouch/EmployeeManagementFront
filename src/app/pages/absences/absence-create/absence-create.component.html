@@ -1,7 +1,7 @@
 <div class="container-fluid px-1 py-5 mx-auto">
   <div class="row d-flex justify-content-center">
     <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-      <h3>Adding an absence</h3>
+      <h3>Create an absence</h3>
       <p class="blue-text">This interface is used to add a new absence </p>
       <div class="card">
           <h5 class="text-center mb-4">Please fill in the required fields</h5>
@@ -17,48 +17,102 @@
             </div>
           </div>
         </div>
-        <form class="form-card" (ngSubmit)="onSubmit()" >
+        <form class="form-card" #form="ngForm" novalidate appDateCompare
+              (ngSubmit)="form.form.valid && onSubmit()">
           <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex">
               <label class="form-control-label px-3">Start date<span class="text-danger"> *</span></label>
               <input type="date"
                      id="dateDebut"
                      required
-                     [(ngModel)]="absence.dateDebut" name="dateDebut"
+                     [(ngModel)]="absence.dateDebut"
                      placeholder=""
+                     #dateDebut="ngModel"
+                     #label="ngModel" class="form-control"
+                     name="dateDebut" [ngClass]="{ 'is-invalid': form.submitted && dateDebut.errors }"
               >
+              <div *ngIf="form.submitted && dateDebut.errors" class="invalid-feedback">
+                <div *ngIf="dateDebut.errors['required']">Start date is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">End date<span
               class="text-danger"> *</span></label> <input type="date" id="dateFin"
-                                                           [(ngModel)]="absence.dateFin" name="dateFin"
-                                                           placeholder="">
+                                                           [(ngModel)]="absence.dateFin"
+                                                           placeholder="" required
+                                                           [ngClass]="{ 'is-invalid': form.submitted && dateFin.errors }"
+                                                           #dateFin="ngModel"
+                                                           class="form-control"
+                                                           name="dateFin" >
+              <div *ngIf="form.submitted && dateFin.errors" class="invalid-feedback">
+                <div *ngIf="dateFin.errors['required']">End date is required</div>
+              </div>
+              <div *ngIf="form.errors?.['dateComparaison']"
+                   class="text-danger" style="font-size: .875em">
+                End date should be great than start date
+              </div>
             </div>
+          </div>
+          <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Leave type<span
               class="text-danger"> *</span></label>
-              <select id="etatCivil" class="form-control mt-1 pt-2" name="etatCivil"  [(ngModel)]="absence.typeAbsence">
+              <select id="typeAbsence" class="form-control mt-1 pt-2" name="typeAbsence"
+                      required
+                      [ngClass]="{ 'is-invalid': form.submitted && typeAbsence.errors }"
+                      #typeAbsence="ngModel"
+                      class="form-select" style="margin: 5px 0;padding: 10px"
+                      [(ngModel)]="absence.typeAbsence">
                 <option value="0">SICKNESS</option>
                 <option value="1">ADMINISTRATIVE LEAVE</option>
                 <option value="2">UNJUSTIFIED LEAVE</option>
                 <option value="3">DELAY</option>
               </select>
+              <div *ngIf="form.submitted && typeAbsence.errors" class="invalid-feedback">
+                <div *ngIf="typeAbsence.errors['required']">Leave type is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Justified ?<span
               class="text-danger"> *</span></label>
-              <select id="justifie" class="form-control mt-1 pt-2" name="etatCivil"  [(ngModel)]="absence.justifie">
+              <select id="justifie" class="form-control mt-1 pt-2" name="justifie"
+                      required
+                      [ngClass]="{ 'is-invalid': form.submitted && justifie.errors }"
+                      #justifie="ngModel"
+                      class="form-select" style="margin: 5px 0;padding: 10px"
+                      [(ngModel)]="absence.justifie">
                 <option value="true">YES</option>
                 <option value="false">NO</option>
               </select>
+              <div *ngIf="form.submitted && justifie.errors" class="invalid-feedback">
+                <div *ngIf="justifie.errors['required']">Justified is required</div>
+              </div>
             </div>
+          </div>
+          <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Justification<span
               class="text-danger"> *</span></label> <input type="textarea" id="justification"
-                                                           [(ngModel)]="absence.justification" name="justification"
-                                                           placeholder="">
+                                                           required name="justification"
+                                                           [ngClass]="{ 'is-invalid': form.submitted && justification.errors }"
+                                                           #justification="ngModel"
+                                                           class="form-control"
+                                                           [(ngModel)]="absence.justification"
+                                                           placeholder="" >
+              <div *ngIf="form.submitted && justification.errors" class="invalid-feedback">
+                <div *ngIf="justification.errors['required']">Jusfitication is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Employee<span
               class="text-danger"> *</span></label>
-              <select id="employee" class="form-control mt-0 pt-3" required  [(ngModel)]="selectedEmployee" name="employee">
-                <option *ngFor="let employee of employees " [ngValue]="employee.id">{{employee.nom}} {{employee.prenom}}</option>
+              <select id="employee"
+                      [(ngModel)]="selectedEmployee" name="employee"
+                      required
+                      [ngClass]="{ 'is-invalid': form.submitted && employee.errors }"
+                      #employee="ngModel" style="margin: 5px 0;padding: 10px"
+                      class="form-select">
+                <option *ngFor="let employee of employees"
+                        [ngValue]="employee.id">{{employee.nom}} {{employee.prenom}}</option>
               </select>
+              <div *ngIf="form.submitted && employee.errors" class="invalid-feedback">
+                <div *ngIf="employee.errors['required']">Employee is required</div>
+              </div>
             </div>
           </div>
 

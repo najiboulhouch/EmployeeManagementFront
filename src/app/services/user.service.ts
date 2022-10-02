@@ -19,8 +19,8 @@ export class UserService {
 
   constructor(private http: HttpClient,
               private cookieService: CookieService) {
-    const memo = localStorage.getItem('currentUser');
 
+    const memo = localStorage.getItem('currentUser');
     // @ts-ignore
     this.currentUserSubject = new BehaviorSubject<JwtResponse>(JSON.parse(memo));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -35,14 +35,11 @@ export class UserService {
 
   login(loginForm : any): Observable<JwtResponse> {
     const url = `${apiUrl}/login`;
-
     // @ts-ignore
     return this.http.post<JwtResponse>(url, loginForm).pipe(
       // @ts-ignore
       tap(user => {
-
         if (user && user.token) {
-          console.log(user);
           this.cookieService.set('currentUser', JSON.stringify(user));
           if (loginForm.remembered) {
             localStorage.setItem('currentUser', JSON.stringify(user));

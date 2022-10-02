@@ -19,11 +19,7 @@ export class NavigationComponent implements OnInit {
   root = '/';
   Role = Role;
 
-  constructor(private userService: UserService,
-              private router: Router,
-  ) {
-
-  }
+  constructor(private userService: UserService) {}
 
 
   ngOnInit() {

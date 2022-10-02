@@ -5,6 +5,9 @@ import {EmployeeService} from "../../../services/employee.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FonctionService} from "../../../services/fonction.service";
 import {Subscription} from "rxjs";
+import {DialogAnimationsDialog} from "../../../parts/dialog-animations-dialog/dialog-animations-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogService} from "../../../services/dialog.service";
 
 @Component({
   selector: 'app-fonction-list',
@@ -18,7 +21,11 @@ export class FonctionListComponent implements OnInit {
   page: any;
   private querySub: Subscription;
 
-  constructor(public fonctionService : FonctionService , private router:Router , private route:ActivatedRoute) { }
+
+  constructor(public fonctionService : FonctionService ,
+              private router:Router ,
+              private route:ActivatedRoute,
+              private dialogService : DialogService) { }
 
 
   ngOnInit(): void {
@@ -44,25 +51,27 @@ export class FonctionListComponent implements OnInit {
       next : (data) => {
         this.page = data ;
         this.fontions = data.content ;
-        console.log(data);
       },
       error:(e) => console.error(e),
     });
   }
 
   deleteFonction(id: number) {
-    this.fonctionService.deleteFonction(id).subscribe({
-      next : (data) => {
-        this.deleted = data ;
-        console.log(data);
-        this.update();
+    this.dialogService.openConfirmDialog('Are you sure to delete this function ?')
+      .afterClosed().subscribe(res => {
+      if (res === "yes"){
+        this.fonctionService.deleteFonction(id).subscribe({
+          next : (data) => {
+            this.deleted = data ;
+            this.update();
+          }
+        })
       }
     })
-
   }
 
   updateFonction(id: number){
-    this.router.navigate(['updateFonction', id]);
+    this.router.navigate(['fonctions/update', id]);
   }
 
 }

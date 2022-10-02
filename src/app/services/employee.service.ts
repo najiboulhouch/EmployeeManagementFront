@@ -47,7 +47,7 @@ export class EmployeeService {
     return this.employeeUrl+'/employees/photoEmployee/'+id;
   }
 
-  updateEmployee(id: number | undefined, value: any):Observable<Employee>{
+  updateEmployee(id: number | undefined, value: Employee):Observable<Employee>{
     return this.http.put<Employee>(this.employeeUrl + "/employees/" + id , value);
   }
 

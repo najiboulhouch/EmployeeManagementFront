@@ -21,30 +21,26 @@ import {PayementCreateComponent} from "./pages/payments/payement-create/payement
 import {PayementUpdateComponent} from "./pages/payments/payement-update/payement-update.component";
 
 const routes : Routes = [
-  {path : '' , redirectTo :'employees' , pathMatch:'full'},
-  {path:'photo/:id' , component:EmployeeListComponent},
-  {path:'details/:id' , component:EmployeeDetailsComponent , canActivate:[AuthGuard]},
-  {path:'update/:id' , component:EmployeeUpdateComponent ,canActivate:[AuthGuard] },
+  {path: '' , redirectTo :'employees' , pathMatch:'full'},
+  {path:'employees/details/:id' , component:EmployeeDetailsComponent , canActivate:[AuthGuard]},
+  {path:'employees/update/:id' , component:EmployeeUpdateComponent ,canActivate:[AuthGuard] },
+  {path:'employees', component: EmployeeListComponent, canActivate: [AuthGuard], data: {roles: [Role.User, Role.Admin]}},
+  {path:'employees/add' , component:EmployeeCreateComponent , canActivate:[AuthGuard] , data: {roles: [Role.User, Role.Admin]}},
+  {path:'employees/detailsAbsence/:id' , component : DetailsAbsenceEmployeeComponent , canActivate:[AuthGuard]},
+
   {path:'fonctions' , component:FonctionListComponent , canActivate:[AuthGuard]},
-  {path : 'addFonction' , component:FonctionCreateComponent , canActivate:[AuthGuard]},
-  {path: 'updateFonction/:id' , component :FonctionUpdateComponent , canActivate:[AuthGuard]},
-  {path : 'absences' , component : AbsenceListComponent , canActivate : [AuthGuard]},
-  {path : 'detailsAbsenceEmployee/:id' , component : DetailsAbsenceEmployeeComponent , canActivate:[AuthGuard]},
+  {path:'fonctions/add' , component:FonctionCreateComponent , canActivate:[AuthGuard]},
+  {path:'fonctions/update/:id' , component :FonctionUpdateComponent , canActivate:[AuthGuard]},
+
+  {path:'absences' , component : AbsenceListComponent , canActivate : [AuthGuard]},
+  {path:'absences/add' , component:AbsenceCreateComponent , canActivate:[AuthGuard]},
+
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LoginComponent},
-  {
-    path: 'employees',
-    component: EmployeeListComponent,
-    canActivate: [AuthGuard],
-    data: {roles: [Role.User, Role.Admin]}
-  },
-  {path:'addEmployee' , component:EmployeeCreateComponent ,
-    canActivate:[AuthGuard] , data: {roles: [Role.User, Role.Admin]}},
 
-  {path:'addAdbsence' , component:AbsenceCreateComponent , canActivate:[AuthGuard]},
   {path:'payments' , component:PayementListComponent , canActivate:[AuthGuard]},
-  {path:'addPayment/:id' , component:PayementCreateComponent , canActivate:[AuthGuard]},
-  {path: 'updatePayment/:id' , component :PayementUpdateComponent , canActivate:[AuthGuard]},
+  {path:'payments/add/:id' , component:PayementCreateComponent , canActivate:[AuthGuard]},
+  {path: 'payments/update/:id' , component :PayementUpdateComponent , canActivate:[AuthGuard]},
 
 ]
 

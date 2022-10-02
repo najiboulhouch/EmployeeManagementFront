@@ -33,7 +33,7 @@ export class PayementCreateComponent implements OnInit {
   ngOnInit(): void {
 
     this.payment.datePayment = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    this.employee = new Employee(0);
+    this.employee = new Employee();
     this.id = this.route.snapshot.params['id'];
     this.employeeService.getEmployee(this.id).subscribe({
       next : (data) => {

@@ -1,14 +1,14 @@
 <div class="container-fluid px-1 py-5 mx-auto">
   <div class="row d-flex justify-content-center">
     <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-      <h3>Modify an employee</h3>
+      <h3>Update an employee</h3>
       <p class="blue-text">This interface is used to modify an employee </p>
       <div class="card">
         <h5 class="text-center mb-4">Please fill in the required fields</h5>
-        <div class="row justify-content-end" >
+        <div class="row justify-content-end">
           <div class="form-group col-sm-12" [hidden]="!submitted">
             <div class="alert alert-success" role="alert">
-              The employee was successfully modified
+              The employee was successfully updated
             </div>
           </div>
           <div class="form-group col-sm-12" *ngIf="messageError">
@@ -17,108 +17,217 @@
             </div>
           </div>
         </div>
-        <form class="form-card" (ngSubmit)="onSubmit()">
+        <form #form="ngForm" (ngSubmit)="form.form.valid && onSubmit()" appDateCompare class="form-card"
+              novalidate>
           <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex">
               <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
-              <input type="text"
-                     id="nom"
-                     required
-                     [(ngModel)]="employee.nom" name="nom"
-                     placeholder=""
+              <input #nom="ngModel"
+                     [(ngModel)]="employee.nom"
+                     [ngClass]="{ 'is-invalid': form.submitted && nom.errors }"
+                     class="form-control" id="nom"
+                     name="nom" placeholder="" required
+                     type="text"
               >
+              <div *ngIf="form.submitted && nom.errors" class="invalid-feedback">
+                <div *ngIf="nom.errors['required']">First name is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Last Name<span
-              class="text-danger"> *</span></label> <input type="text" id="prenom"   [(ngModel)]="employee.prenom" name="prenom"
-                                                           placeholder="">
+              class="text-danger"> *</span></label> <input #prenom="ngModel" [(ngModel)]="employee.prenom"
+                                                           [ngClass]="{ 'is-invalid': form.submitted && prenom.errors }"
+                                                           class="form-control"
+                                                           id="prenom" name="prenom"
+                                                           placeholder=""
+                                                           required
+                                                           type="text">
+              <div *ngIf="form.submitted && prenom.errors" class="invalid-feedback">
+                <div *ngIf="prenom.errors['required']">Last name is required</div>
+              </div>
             </div>
           </div>
           <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">CIN<span
               class="text-danger"> *
-                     </span></label> <input type="text" id="cin"    [(ngModel)]="employee.cin" placeholder="" name="cin">
+                     </span></label> <input #cin="ngModel" [(ngModel)]="employee.cin"
+                                            [ngClass]="{ 'is-invalid': form.submitted && cin.errors }"
+                                            class="form-control" id="cin"
+                                            name="cin" placeholder=""
+                                            required
+                                            type="text">
+              <div *ngIf="form.submitted && cin.errors" class="invalid-feedback">
+                <div *ngIf="cin.errors['required']">CIN name is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Phone
               <span class="text-danger">
-                     *</span></label> <input type="tel" id="tel"  placeholder=""  [(ngModel)]="employee.numTel" name="numTel">
+                     *</span></label> <input #numTel="ngModel" [(ngModel)]="employee.numTel"
+                                             [ngClass]="{ 'is-invalid': form.submitted && numTel.errors }"
+                                             class="form-control" id="tel"
+                                             name="numTel" placeholder=""
+                                             required
+                                             type="tel">
+              <div *ngIf="form.submitted && numTel.errors" class="invalid-feedback">
+                <div *ngIf="numTel.errors['required']">Phone is required</div>
+              </div>
             </div>
           </div>
           <div class="row justify-content-between text-left">
-            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Date of birth
+            <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Birth Date
               <span class="text-danger">
-                     *</span></label> <input type="date" id="dateNaissance" name="dateNaissance" placeholder=""
-                                             [(ngModel)]="employee.dateNaissance">
+                     *</span></label> <input #dateNaissance="ngModel" [(ngModel)]="employee.dateNaissance"
+                                             [ngClass]="{ 'is-invalid': form.submitted && dateNaissance.errors }"
+                                             class="form-control"
+                                             id="dateNaissance"
+                                             name="dateNaissance" placeholder=""
+                                             required
+                                             type="date">
+              <div *ngIf="form.submitted && dateNaissance.errors" class="invalid-feedback">
+                <div *ngIf="dateNaissance.errors['required']">Birth Date is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex">
               <label class="form-control-label px-3">
                 City
                 <span class="text-danger"> *</span></label>
-              <select id="lieuNaissance" name="lieuNaissance" class="form-control mt-1 pt-2"  [(ngModel)]="employee.lieuNaissance">
+              <select #lieuNaissance="ngModel" [(ngModel)]="employee.lieuNaissance"
+                      [ngClass]="{ 'is-invalid': form.submitted && lieuNaissance.errors }" class="form-select"
+                      id="lieuNaissance"
+                      name="lieuNaissance" required
+                      style="margin: 5px 0;padding: 10px">
                 <option name="Rabat">Rabat</option>
-                <option name="Rabat">Casa</option>
-                <option name="Rabat">Sale</option>
-                <option name="Rabat">Temara</option>
-                <option name="Rabat">El jadida</option>
-                <option name="Rabat">Tanger</option>
-                <option name="Rabat">Oujda</option>
-                <option name="Rabat">Marrakech</option>
-                <option name="Rabat">Agadir</option>
-                <option name="Rabat">Settat</option>
-                <option name="Rabat">Berchid</option>
-                <option name="Rabat">Khouribga</option>
-                <option name="Rabat">Beni Mellal</option>
-                <option name="Rabat">Rachidia</option>
-                <option name="Rabat">Tiznet</option>
-                <option name="Rabat">Fes</option>
-                <option name="Rabat">Meknes</option>
+                <option name="Casa">Casa</option>
+                <option name="Sale">Sale</option>
+                <option name="Temara">Temara</option>
+                <option name="El jadida">El jadida</option>
+                <option name="Tanger">Tanger</option>
+                <option name="Oujda">Oujda</option>
+                <option name="Marrakech">Marrakech</option>
+                <option name="Agadir">Agadir</option>
+                <option name="Settat">Settat</option>
+                <option name="Berchid">Berchid</option>
+                <option name="Khouribga">Khouribga</option>
+                <option name="Beni Mellal">Beni Mellal</option>
+                <option name="Rachidia">Rachidia</option>
+                <option name="Tiznet">Tiznet</option>
+                <option name="Fes">Fes</option>
+                <option name="Meknes">Meknes</option>
               </select>
+              <div *ngIf="form.submitted && lieuNaissance.errors" class="invalid-feedback">
+                <div *ngIf="lieuNaissance.errors['required']">City is required</div>
+              </div>
             </div>
+
           </div>
           <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Address<span
-              class="text-danger"> *</span></label> <input type="text" id="adresse" name="adresse"  [(ngModel)]="employee.adresse" placeholder=""
+              class="text-danger"> *</span></label> <input #adresse="ngModel" [(ngModel)]="employee.adresse"
+                                                           [ngClass]="{ 'is-invalid': form.submitted && adresse.errors }"
+                                                           class="form-control" id="adresse"
+                                                           name="adresse"
+                                                           placeholder=""
+                                                           required type="text"
             >
+              <div *ngIf="form.submitted && adresse.errors" class="invalid-feedback">
+                <div *ngIf="adresse.errors['required']">Address is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Nationality<span
-              class="text-danger"> *</span></label> <input type="text" id="nationalite" name="nationalite" placeholder=""
-                                                           [(ngModel)]="employee.nationalite"
+              class="text-danger"> *</span></label> <input #nationalite="ngModel" [(ngModel)]="employee.nationalite"
+                                                           [ngClass]="{ 'is-invalid': form.submitted && nationalite.errors }"
+                                                           class="form-control" id="nationalite"
+                                                           name="nationalite"
+                                                           placeholder="" required
+                                                           type="text"
             >
+              <div *ngIf="form.submitted && nationalite.errors" class="invalid-feedback">
+                <div *ngIf="nationalite.errors['required']">Nationality is required</div>
+              </div>
             </div>
           </div>
           <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex">
               <label class="form-control-label px-3">Marital status<span
                 class="text-danger"> *</span></label>
-              <select id="etatCivil" class="form-control mt-1 pt-2" name="etatCivil"  [(ngModel)]="employee.etatCivil">
+              <select #etatCivil="ngModel" [(ngModel)]="employee.etatCivil"
+                      [ngClass]="{ 'is-invalid': form.submitted && etatCivil.errors }"
+                      class="form-control" class="form-control mt-1 pt-2"
+                      id="etatCivil"
+                      name="etatCivil" required
+                      style="margin: 5px 0;padding: 10px">
                 <option name="0">MARRIED</option>
                 <option name="1">SINGLE</option>
                 <option name="2">DIVORCE</option>
               </select>
+              <div *ngIf="form.submitted && etatCivil.errors" class="invalid-feedback">
+                <div *ngIf="etatCivil.errors['required']">Marital status is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Salary<span
-              class="text-danger"> *</span></label> <input type="number" id="salaire" name="salaire"
-                                                           [(ngModel)]="employee.salaire" placeholder=""
+              class="text-danger"> *</span></label> <input #salaire="ngModel" [(ngModel)]="employee.salaire"
+                                                           [ngClass]="{ 'is-invalid': form.submitted && salaire.errors }"
+                                                           class="form-control" id="salaire"
+                                                           name="salaire"
+                                                           placeholder=""
+                                                           required type="number"
             >
+
+              <div *ngIf="form.submitted && salaire.errors" class="invalid-feedback">
+                <div *ngIf="salaire.errors['required']">Salary is required</div>
+              </div>
             </div>
           </div>
           <div class="row justify-content-between text-left">
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Function<span
               class="text-danger"> *</span></label>
-              <select id="fonction" class="form-control mt-0 pt-3" required  [(ngModel)]="selectedFonctions" name="fonction">
+              <select #fonction="ngModel" [(ngModel)]="selectedFonctions"
+                      [ngClass]="{ 'is-invalid': form.submitted && fonction.errors }"
+                      class="form-control pt-3" class="form-control"
+                      id="fonction"
+                      name="fonction" required
+                      style="margin: 5px 0;padding: 10px">
                 <option *ngFor="let fonction of fonctions "
-                        [ngValue]="fonction.id" [selected]="fonction?.label == employee.fonction?.label">{{fonction.label}}</option>
+                        [selected]="fonction?.label === employee.fonction?.label"
+                        [ngValue]="fonction.id">{{fonction.label}}</option>
               </select>
+              <div *ngIf="form.submitted && fonction.errors" class="invalid-feedback">
+                <div *ngIf="fonction.errors['required']">Function is required</div>
+              </div>
             </div>
             <div class="form-group col-sm-6 flex-column d-flex"><label class="form-control-label px-3">Email<span
-              class="text-danger"> *</span></label> <input required type="email" id="email" name="email"
-                                                           [(ngModel)]="employee.email" placeholder=""
+              class="text-danger"> *</span></label> <input #email="ngModel" [(ngModel)]="employee.email"
+                                                           [ngClass]="{ 'is-invalid': form.submitted && email.errors }"
+                                                           class="form-control"
+                                                           id="email"
+                                                           name="email" placeholder=""
+                                                           required
+                                                           type="email"
             >
+              <div *ngIf="form.submitted && email.errors" class="invalid-feedback">
+                <div *ngIf="email.errors['required']">Email is required</div>
+              </div>
             </div>
           </div>
-          <div class="row justify-content-end">
-            <div class="form-group col-sm-6">
-              <button type="submit" class="btn-block btn-success me-3">Edit</button>
-              <button type="submit" class="btn-block btn-success" (click)="goToList()">Return</button>
+          <div class="row justify-content-between text-left">
+            <div class="form-group col-sm-12 flex-column d-flex"><label class="form-control-label px-3">Picture
+              Link<span
+                class="text-danger"> *</span></label> <input #photo="ngModel" [(ngModel)]="employee.photo"
+                                                             [ngClass]="{ 'is-invalid': form.submitted && photo.errors }"
+                                                             class="custom-file-input"
+                                                             class="form-control" id="photo"
+                                                             name="photo"
+                                                             placeholder=""
+                                                             required type="text"
+            >
+              <div *ngIf="form.submitted && photo.errors" class="invalid-feedback">
+                <div *ngIf="photo.errors['required']">Picture link is required</div>
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="form-group col-sm-6">
+                <button class="btn-block btn-success me-3" type="submit">Update</button>
+                <button (click)="goToList()" class="btn-block btn-success" type="submit">Return</button>
+              </div>
             </div>
           </div>
         </form>

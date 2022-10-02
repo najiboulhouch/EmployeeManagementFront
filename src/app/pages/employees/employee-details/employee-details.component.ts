@@ -29,10 +29,10 @@ export class EmployeeDetailsComponent implements OnInit {
     this.employeeService.getEmployee(this.id)
       .subscribe({next : ( data ) =>
         {
-          this.employee = new Employee(0);
+          this.employee = new Employee();
           this.employee = data;
       } , error : error =>  {
-           this.messageError = error.error.message ;
+           this.messageError = error.message ;
         }
       });
   }

@@ -49,10 +49,10 @@ export class PayementListComponent implements OnInit {
   }
 
   updatePayment(id: number){
-    this.router.navigate(['updatePayment', id]);
+    this.router.navigate(['payments/update', id]);
   }
 
   employeeDetails(id:number){
-    this.router.navigate(['details' , id]);
+    this.router.navigate(['employees/details' , id]);
   }
 }

@@ -9,9 +9,7 @@ import {Observable} from "rxjs";
 export class JwtInterceptor implements HttpInterceptor {
 
 
-  constructor(private userService: UserService,) {
-
-  }
+  constructor(private userService: UserService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
@@ -23,7 +21,6 @@ export class JwtInterceptor implements HttpInterceptor {
         }
       });
     }
-    console.log(request);
     return next.handle(request);
   }
 }

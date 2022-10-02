@@ -9,7 +9,4 @@ export  class Contrat {
   employee : Employee;
 
 
-  constructor(id: number) {
-    this.id = id;
-  }
 }

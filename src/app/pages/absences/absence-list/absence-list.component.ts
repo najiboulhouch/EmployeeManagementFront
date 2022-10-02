@@ -40,7 +40,7 @@ export class AbsenceListComponent implements OnInit {
 
   employeeDetails(id:number){
     console.log(id);
-    this.router.navigate(['details' , id]);
+    this.router.navigate(['employees/details' , id]);
   }
 
   reloadAllAbsences(page: number = 1, size: number = 7) : void {
@@ -48,7 +48,6 @@ export class AbsenceListComponent implements OnInit {
       next : (data) => {
         this.page = data ;
         this.absences = data.content ;
-        console.log(data);
       },
       error:(e) => console.error(e),
     });

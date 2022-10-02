@@ -27,6 +27,11 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { PayementCreateComponent } from './pages/payments/payement-create/payement-create.component';
 import { PayementUpdateComponent } from './pages/payments/payement-update/payement-update.component';
+import {DateCompareValidatorDirective} from './date-comparate.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {DialogAnimationsDialog} from "./parts/dialog-animations-dialog/dialog-animations-dialog.component";
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatCard, MatCardModule} from "@angular/material/card";
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -48,6 +53,8 @@ registerLocaleData(localeFr, 'fr');
     PayementListComponent,
     PayementCreateComponent,
     PayementUpdateComponent,
+    DateCompareValidatorDirective,
+    DialogAnimationsDialog
   ],
   imports: [
     BrowserModule,
@@ -55,8 +62,12 @@ registerLocaleData(localeFr, 'fr');
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatCardModule,
   ],
   providers: [CookieService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: 'fr' }],

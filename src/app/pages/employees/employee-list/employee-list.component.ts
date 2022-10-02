@@ -7,6 +7,9 @@ import {EtatCivil} from "../../../enums/EtatCivil";
 import {AbsenceService} from "../../../services/absence.service";
 import {Absence} from "../../../models/Absence";
 import {UserService} from "../../../services/user.service";
+import {DialogAnimationsDialog} from "../../../parts/dialog-animations-dialog/dialog-animations-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogService} from "../../../services/dialog.service";
 
 @Component({
   selector: 'app-employee-list',
@@ -17,12 +20,14 @@ export class EmployeeListComponent implements OnInit {
 
   employees?: Employee[] ;
   EtatCivil = EtatCivil;
-  private currentTime: number=0;
   deleted = false ;
   page: any;
   private querySub: Subscription;
 
-  constructor(public employeeService : EmployeeService , private route:ActivatedRoute , private router : Router) { }
+  constructor(public employeeService : EmployeeService ,
+              private route:ActivatedRoute ,
+              private router : Router,
+              private dialogService : DialogService) { }
 
   ngOnInit(): void {
     this.querySub = this.route.queryParams.subscribe(() => {
@@ -47,44 +52,40 @@ export class EmployeeListComponent implements OnInit {
       next : (data) => {
         this.page = data ;
         this.employees = data.content;
-        console.log(this.employees);
       },
       error:(e) => console.error(e),
     });
   }
 
-  getTS() {
-    return this.currentTime;
-  }
-
 
   employeeDetails(id:number){
-    this.router.navigate(['details' , id]);
+    this.router.navigate(['employees/details' , id]);
   }
 
   deleteEmployee(id: number) {
+    this.dialogService.openConfirmDialog('Are you sure to delete this employee ?')
+      .afterClosed().subscribe(res => {
+      if (res === "yes"){
         this.employeeService.deleteEmployee(id).subscribe({
           next : (data) => {
             this.deleted = data ;
-            console.log(data);
             this.reloadAllEmployee();
           }
         })
-
+      }
+    })
   }
 
   updateEmployee(id: number){
-    this.router.navigate(['update', id]);
+    this.router.navigate(['employees/update', id]);
   }
 
   addPyment(id: number){
-    this.router.navigate(['addPayment', id]);
+    this.router.navigate(['payments/add', id]);
   }
 
-
-
   detailsAbsencesEmployee(id: number){
-    this.router.navigate(['detailsAbsenceEmployee', id]);
+    this.router.navigate(['employees/detailsAbsence', id]);
   }
 
 

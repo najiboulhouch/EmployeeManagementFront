@@ -1,10 +1,10 @@
-<h1 style="text-align: center" class="display-4 ">List of employees</h1>
+<h1 style="text-align: center" class="mt-3">Our Employees</h1>
 <div class="row">
   <div class="alert alert-danger" role="alert" [hidden]="!deleted">
     The employee was successfully deleted
   </div>
   <div class="col-12 mb-4" style="text-align: right" >
-    <a href="#" class="btn btn-success"  title="Add" [routerLink]="['/addEmployee']">
+    <a href="#" class="btn btn-success"  title="Add" [routerLink]="['/employees/add']">
       <i class="bi bi-person-plus-fill"></i>
       Add a new employee
     </a>
@@ -27,7 +27,8 @@
   <tbody>
   <tr *ngFor="let employee of employees">
     <th class="align-middle" scope="row">
-      <img class="rounded mx-auto d-block" style="width: 30px;height: 30px;" [src]="this.employeeService.getPictureEmployee(employee.id)"/>
+      <img class="rounded mx-auto d-block" style="width: 30px;height: 30px;"
+           src="{{employee.photo}}"/>
     </th>
     <td class="align-middle">{{employee.cin}}</td>
     <td class="align-middle">{{employee.nom}}</td>

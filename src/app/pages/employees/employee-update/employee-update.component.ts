@@ -16,15 +16,12 @@ export class EmployeeUpdateComponent implements OnInit {
   id: number;
   // @ts-ignore
   employee: Employee = new Employee();
-
   submitted  = false;
   fonctions?: Fonction[];
   selectedFonctions : number;
   messageError : string;
   selectedFiles : any;
   progress: number;
-  currentFileUpload: any;
-  private currentTime: number;
 
   constructor(private route:ActivatedRoute,
               private router:Router,
@@ -35,13 +32,12 @@ export class EmployeeUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.reloadAllFonctions();
-    this.employee = new Employee(0);
+    this.employee = new Employee();
     this.id = this.route.snapshot.params['id'];
     this.employeeService.getEmployee(this.id).subscribe({
         next : (data) => {
-          console.log(data),
         this.employee = data ;
-          console.log(this.employee.fonction.label)
+        console.log(this.employee)
       },
       error:(error) =>
         console.log(error),
@@ -57,25 +53,23 @@ export class EmployeeUpdateComponent implements OnInit {
   }
 
   public updateEmployee() {
+    let fonction = new Fonction(this.selectedFonctions);
+
+    this.employee.fonction = fonction;
+    console.log(this.employee)
     this.employeeService.updateEmployee(this.id, this.employee)
       .subscribe({
         next: (data) => {
-          console.log(data);
-          this.employee = new Employee(0);
-          this.goToList();
-        }, error: (error) => console.log(error),
+          this.submitted = true;
+        }, error : error => {
+          this.messageError = error.error ; this.submitted = false; }
       });
-  }
-
-  onSelectedFile(event : any) {
-    this.selectedFiles=event.target.files;
   }
 
   reloadAllFonctions() : void {
     this.fonctionService.getAllFonctionsForSelect().subscribe({
       next : (data) => {
         this.fonctions = data ;
-        console.log(data);
       },
       error:(e) => console.error(e),
     });
